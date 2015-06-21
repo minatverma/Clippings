@@ -1,3 +1,3 @@
 # Clippings
 
-This directory contains small ytility clippings related to tech folder assigned .
+This directory contains small utility clippings related to tech folder assigned .
