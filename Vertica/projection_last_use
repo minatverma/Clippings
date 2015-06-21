@@ -1,0 +1,10 @@
+-- Shows projection last used timestamp to identify unused projections
+-- https://my.vertica.com/docs/6.1.x/HTML/index.htm#17579.htm
+SELECT /*+label(diag_unused_projectiosn)*/
+       projection_name,
+       MIN(query_start_timestamp) AS last_used_timestamp
+FROM   v_monitor.projection_usage
+GROUP  BY projection_name,
+          query_start_timestamp
+ORDER  BY query_start_timestamp
+LIMIT  30;

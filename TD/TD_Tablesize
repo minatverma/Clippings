@@ -1,0 +1,10 @@
+LOCKING ROW FOR ACCESS
+SELECT top 10 DatabaseName
+,TableName
+, CAST(SUM(CurrentPerm)/(1024*1024*1024) AS DECIMAL(18,5)) AS Tablesize
+FROM DBC.TableSize
+WHERE DatabaseName = 'CHNLSLS_MYS_APP'
+--AND TableName  =  'wrk_pos_agg_wkly'
+GROUP BY DatabaseName ,TableName
+ORDER BY Tablesize DESC
+;

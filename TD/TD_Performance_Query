@@ -1,0 +1,20 @@
+SELECT	
+     USERNAME AS USERNAME,
+     SessionId AS SessionId, 
+     StartTime AS StartTime,  
+     AMPCPUTime AS Total_CPU,
+     MaxAMPCPUTime * (HASHAMP() + 1) AS Impact_CPU,
+     TotalIOCount AS Total_IO,
+     MaxAMPIO * (HASHAMP() + 1) AS Impact_IO, 
+     100-(NULLIFZERO(AMPCPUTime/HASHAMP())/(MaxAMPCPUTime)*100)AS CPU_Skew,
+     ( 100 - ( NULLIFZERO ( TotalIOCount / ( HASHAMP ( ) + 1  ) )  ) / NULLIFZERO ( MAXAMPIO ) * 100  ) AS IO_Skew,
+     (Total_CPU*1000)/NULLIFZERO(Total_IO) AS PJI,
+     Total_IO/ (NULLIFZERO(Total_CPU)*1000) AS UII,
+     SpoolUsage, 
+     ((firstresptime - starttime) HOUR(4) TO SECOND) (NAMED Elapsed_Time),
+     AMPCPUTime+ParserCPUTime AS AllCPUTime, 
+     Querytext AS Querytext  
+   FROM dbc.dbqlogtbl 
+   WHERE   USERNAME = <''> 
+	AND	Sessionid=<>
+	;

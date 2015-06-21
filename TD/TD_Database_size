@@ -1,0 +1,18 @@
+SELECT databasename
+  , SUM(maxperm)/1024/1024/1024 (DECIMAL(10,2))   AS space_allocated
+  , SUM(currentperm)/1024/1024/1024 (DECIMAL(10,2)) AS space_Used
+  , (MAX(currentperm)*COUNT(*)-SUM(currentperm))
+    /1024/1024/1024 (DECIMAL(10, 2)) AS skew_Size
+
+  , (space_used + skew_size) AS total_space_used
+
+  , (MIN(maxperm-currentperm)/1024/1024/1024) * COUNT(*) (DECIMAL(10,2))
+    AS free_Space
+
+  , CAST(total_space_used AS DECIMAL(10,2)) * 100
+   / CAST(space_allocated AS DECIMAL(10,2)) AS pct_used
+
+FROM  DBC.diskspace
+WHERE databasename = 'CHNLSLS_MYS_APP'
+ AND maxperm > 0
+GROUP  BY 1;
