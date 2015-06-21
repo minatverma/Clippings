@@ -1,0 +1,5 @@
+SELECT /*+label(diag_denied_resource_req)*/
+       reason,
+       COUNT(*)
+FROM   v_monitor.resource_rejection_details
+GROUP  BY reason;
